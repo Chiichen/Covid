@@ -140,11 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Covid.cpp" />
+    <ClCompile Include="gamedemo.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="remderdemo.cpp" />
     <ClCompile Include="RenderEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CubeType.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="RenderEngine.h" />
   </ItemGroup>

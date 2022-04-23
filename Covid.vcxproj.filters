@@ -27,12 +27,18 @@
     <ClCompile Include="Map.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="gamedemo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeType.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
