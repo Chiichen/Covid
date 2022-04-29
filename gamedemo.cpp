@@ -48,39 +48,53 @@ int main()
 {
 	Renderer render(3000,3000);
 	Map map;
+
+	HANDLE HOUT = GetStdHandle(STD_OUTPUT_HANDLE);    //获得控制台句柄
+	COORD NewSize = GetLargestConsoleWindowSize(HOUT);//获得控制台最大坐标，坐标以字符数为单位
+	NewSize.X -= 1;
+	NewSize.Y -= 1;    //可以不加，不加时显示滚动条
+	SetConsoleScreenBufferSize(HOUT, NewSize); //设置控制台缓冲区大小
+
+	SMALL_RECT DisplayArea = { 0,0,0,0 };
+	DisplayArea.Right = NewSize.X;
+	DisplayArea.Bottom = NewSize.Y;
+	SetConsoleWindowInfo(HOUT, TRUE, &DisplayArea);    //设置控制台大小
+	point curcusor;
+	curcusor.x = 9;
+	curcusor.y = 9;
+	//控制台已经最大化，但是初始位置不在屏幕左上角，添加如下代码
+	HWND hwnd = GetConsoleWindow();
+	ShowWindow(hwnd, SW_MAXIMIZE);    //窗体最大化
 	while (1)
 	{
-		point curcusor;
-		curcusor.x = 9;
-		curcusor.y = 9;
+
 		if (_kbhit()) {//如果有按键按下，则_kbhit()函数返回真
 			auto ch = _getch();//使用_getch()函数获取按下的键值
-			cout << ch;
 			if (ch == 27) { return 0; }//当按下ESC时循环，ESC键的键值时27.
-			else if (ch == 87 && curcusor.y > 0)
+			else if (ch == 119 && curcusor.y > 0 && map.logicmap[curcusor.y - 1][curcusor.x] == 1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.y--;
+				
 			}
-			else if (ch == 87 && curcusor.y < map.Ifo.ysize-1)
+			else if (ch == 115 && curcusor.y < map.Ifo.ysize-1 && map.logicmap[curcusor.y + 1][curcusor.x] == 1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.y++;
 			}
-			else if (ch == 65 && curcusor.x > 0)
+			else if (ch == 97 && curcusor.x > 0 && map.logicmap[curcusor.y][curcusor.x - 1] == 1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.x--;
 			}
-			else if (ch == 68 && curcusor.x < map.Ifo.xsize - 1)
+			else if (ch == 100 && curcusor.x < map.Ifo.xsize - 1&&map.logicmap[curcusor.y][curcusor.x + 1]==1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.x++;
 			}
-
 		}
 		map.SetColor(curcusor, Cube1);
-		render.RenderMap(map.Ifo, L"   ", 4, map.rgbdata);
+		render.RenderMap(map.Ifo, L"    ", 4, map.rgbdata);
 
 	}
 	return 0;

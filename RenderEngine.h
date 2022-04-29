@@ -25,6 +25,7 @@ public:
     void RenderUnit(int x, int y, wstring str, int strsize, RGBData rgbdata);
     template<int maxx, int maxy>
     void RenderMap(MapInfo mpi, wstring str, int strsize, RGBData(&rgbdata)[maxy][maxx]);
+    void RenderText();
 
 private:
     HFONT font = CreateFont(
@@ -62,9 +63,11 @@ private:
     HFONT* Fontlist[2] = { &font, &font2 };
     HDC hdc;
     HDC MemDC;
+    HDC CoverMemDC;
     HBITMAP hbmp;
 };
-
+/*randermap函数传入mapinfo地图信息，表示地图方格的str(暂定为空格)，str的长度
+以及存储rgb信息的二维数组，rgb结构体的信息详见结构体定义部分*/
 template<int maxx, int maxy>
 void Renderer::RenderMap(MapInfo mpi, wstring str, int strsize, RGBData(&rgbdata)[maxy][maxx])
 {
@@ -74,10 +77,12 @@ void Renderer::RenderMap(MapInfo mpi, wstring str, int strsize, RGBData(&rgbdata
     {
         for (int j = 0; j < mpi.ysize; j++)
         {
-            RenderUnit(mpi.x + i * (mpi.width / mpi.xsize), mpi.y + j * (mpi.height / mpi.ysize), str, strsize, rgbdata[j][i]);
+            RenderUnit(50+mpi.x + i * (mpi.width / mpi.xsize),50+ mpi.y + j * (mpi.height / mpi.ysize), str, strsize, rgbdata[j][i]);
 
         }
     }
     BitBlt(hdc, mpi.x, mpi.y, mpi.width, mpi.height, MemDC, mpi.x, mpi.y, SRCCOPY);
     DeleteObject(temphbmp);
 }
+
+

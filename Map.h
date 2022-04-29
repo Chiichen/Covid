@@ -22,8 +22,10 @@ class Map
 public:
 	Map();
 	~Map();
-	int logicmap[20][20] = { 0 };
-	RGBData rgbdata[20][20];
+	int logicmap[18][23] = { 0 };
+	RGBData rgbdata[18][23];
+	//vector<vector<RGBData>> rgbdata;
+	//vector<vector<int>> logicmap;
 	MapInfo Ifo;
 	void SetColor(point p, RGBData data);
 private:
