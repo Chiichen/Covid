@@ -12,10 +12,6 @@ int random_unint(unsigned int min, unsigned int max);
 template<int maxx, int maxy>
 void bfsmap(int(&a)[maxx][maxy], double prameter);
 
-struct point {
-	int x = 0;
-	int y = 0;
-};
 
 class Map
 {

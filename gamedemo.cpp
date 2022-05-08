@@ -2,6 +2,7 @@
 #include"RenderEngine.h"
 #include<iostream>
 #include<conio.h>
+#include"Menu.h"
 /*字母和数字键的键码值(keyCode)
 按键	键码	按键	键码	按键	键码	按键	键码
 A	65	J	74	S	83	1	49
@@ -48,7 +49,7 @@ int main()
 {
 	Renderer render(3000,3000);
 	Map map;
-
+	Menu menu;
 	HANDLE HOUT = GetStdHandle(STD_OUTPUT_HANDLE);    //获得控制台句柄
 	COORD NewSize = GetLargestConsoleWindowSize(HOUT);//获得控制台最大坐标，坐标以字符数为单位
 	NewSize.X -= 1;
@@ -64,7 +65,11 @@ int main()
 	curcusor.y = 9;
 	//控制台已经最大化，但是初始位置不在屏幕左上角，添加如下代码
 	HWND hwnd = GetConsoleWindow();
+
 	ShowWindow(hwnd, SW_MAXIMIZE);    //窗体最大化
+
+	menu.show();
+
 	while (1)
 	{
 
@@ -95,7 +100,7 @@ int main()
 		}
 		map.SetColor(curcusor, Cube1);
 		render.RenderMap(map.Ifo, L"    ", 4, map.rgbdata);
-
+		render.Render(appinfo);
 	}
 	return 0;
 
