@@ -16,6 +16,8 @@ public:
 	Renderer renderer;
 	int show();
 private:
-
+	vector<wstring> defaulttext1;
+	vector<wstring> defaulttext2;
+	vector<int>defaulttextsize;
 };
 

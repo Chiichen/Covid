@@ -24,7 +24,6 @@ Renderer::~Renderer()
 
 void Renderer::RenderUnit(HDC DC,int x, int y, wstring str, int strsize, RGBData rgbdata,int mode)
 {
-	
 	auto str1 = str.c_str();
 	auto tempfont = *Fontlist[rgbdata.fontnum];
 	auto curfontsize = rgbdata.fontsize;
@@ -45,28 +44,56 @@ void Renderer::RenderUnit(HDC DC,int x, int y, wstring str, int strsize, RGBData
 		SetBkColor(CoverMemDC, TRANSPARENT);
 		SetTextColor(CoverMemDC, RGB(rgbdata.R, rgbdata.G, rgbdata.B));
 		TextOut(CoverMemDC, 0, 0, str1, strsize);
-		BitBlt(DC, x - rgbdata.fontsize * strsize / 2, y - rgbdata.fontsize * strsize / 2, rgbdata.fontsize * strsize, rgbdata.fontsize * strsize, CoverMemDC, 0, 0, SRCCOPY);
+		BitBlt(DC, x - rgbdata.fontsize * strsize / 2, y - rgbdata.fontsize/ 2, rgbdata.fontsize * strsize, rgbdata.fontsize, CoverMemDC, 0, 0, SRCCOPY);
 		DeleteObject(tempfont);
 		DeleteObject(CoverHbmp);
 	}
 
+	else if (mode == 3)
+	{
+		SetBkColor(CoverMemDC, TRANSPARENT);
+		SetTextColor(CoverMemDC, RGB(rgbdata.R, rgbdata.G, rgbdata.B));
+		TextOut(CoverMemDC, 0, 0, str1, strsize);
+		BitBlt(DC, x, y, rgbdata.fontsize * strsize, rgbdata.fontsize, CoverMemDC, 0, 0, SRCCOPY);
+		DeleteObject(tempfont);
+		DeleteObject(CoverHbmp);
+	}
 	//SetTextColor(DC, RGB(rgbdata.R, rgbdata.G, rgbdata.B));
 
 }
 
-void Renderer::RenderText(MapInfo mpi, vector<point> points, vector<wstring> strlist, vector<int> strsizelist, vector<RGBData> rgbdatalist)
+void Renderer::RenderText(MapInfo mpi, vector<point> points, vector<wstring> strlist, vector<int> strsizelist, vector<RGBData> rgbdatalist, int mode)
 {
-	auto temphbmp = CreateCompatibleBitmap(hdc, mpi.width, mpi.height);
-	SelectObject(MemTextDC, temphbmp);
-	for (size_t i = 0; i < points.size(); i++)
+	if (mode == 1)
 	{
-		RenderUnit(MemTextDC,points[i].x, points[i].y, strlist[i], strsizelist[i], rgbdatalist[i],2);
+		auto temphbmp = CreateCompatibleBitmap(hdc, 3000, 3000);
+		SelectObject(MemTextDC, temphbmp);
+		for (size_t i = 0; i < points.size(); i++)
+		{
+			RenderUnit(MemTextDC, points[i].x, points[i].y, strlist[i], strsizelist[i], rgbdatalist[i], 2);
+		}
+		BitBlt(MemDC, mpi.x, mpi.y, mpi.width, mpi.height, MemTextDC, mpi.x, mpi.y, SRCCOPY);
+		DeleteObject(temphbmp);
 	}
-	BitBlt(MemDC, mpi.x, mpi.y, mpi.width, mpi.height, MemTextDC, mpi.x, mpi.y, SRCCOPY);
-	DeleteObject(temphbmp);
+	else if (mode == 2)
+	{
+		auto temphbmp = CreateCompatibleBitmap(hdc, 3000, 3000);
+		SelectObject(MemTextDC, temphbmp);
+		for (size_t i = 0; i < points.size(); i++)
+		{
+			RenderUnit(MemTextDC, points[i].x, points[i].y, strlist[i], strsizelist[i], rgbdatalist[i], 3);
+		}
+		BitBlt(MemDC, mpi.x, mpi.y, mpi.width, mpi.height, MemTextDC, mpi.x, mpi.y, SRCCOPY);
+		DeleteObject(temphbmp);
+	}
 }
 
 void Renderer::Render(MapInfo apinfo)
 {
 	 BitBlt(hdc, apinfo.x, apinfo.y, apinfo.width, apinfo.height, MemDC, apinfo.x, apinfo.y, SRCCOPY);
+}
+
+void Renderer::RenderTextbar(TextBar textbar)
+{
+	RenderText(textinfo, textbar.points, textbar.textlist, textbar.textsize, textbar.rgbdatas,2);
 }

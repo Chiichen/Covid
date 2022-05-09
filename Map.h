@@ -3,6 +3,8 @@
 #include<random>
 #include<Windows.h>
 #include<queue>
+#include"Simulator.h"
+#include"CubeType.h"
 using namespace std;
 
 double random_unint(double min, double max);
@@ -18,6 +20,7 @@ class Map
 public:
 	Map();
 	~Map();
+	Area area;
 	int logicmap[18][23] = { 0 };
 	RGBData rgbdata[18][23];
 	//vector<vector<RGBData>> rgbdata;

@@ -1,10 +1,13 @@
-#include"Menu.h"
+ï»¿#include"Menu.h"
 Menu::Menu()
 	:renderer(3000, 3000), 
-	menutext({ L"¿ªÊ¼ÓÎÏ·", L"³É¾Í", L"¼¼ÄÜ" }), 
-	textsize({ 4, 2, 2 }),
-	points({ {500,500},{500,600},{500,700} }),
-	rgbdatas({ MenuText ,MenuText ,MenuText })
+	menutext({ L"âž¢å¼€å§‹æ¸¸æˆ", L"æˆå°±", L"æŠ€èƒ½" }), 
+	textsize({ 5, 2, 2 }),
+	points({ {962,400},{962,500},{962,600} }),
+	rgbdatas({ MenuText ,MenuText ,MenuText }),
+	defaulttext1({ L"å¼€å§‹æ¸¸æˆ", L"æˆå°±", L"æŠ€èƒ½" }),
+	defaulttext2({ L"âž¢å¼€å§‹æ¸¸æˆ", L"âž¢æˆå°±", L"âž¢æŠ€èƒ½" }),
+	defaulttextsize({4,2,2})
 {
 	
 }
@@ -17,14 +20,35 @@ Menu::~Menu()
 int Menu::show()
 {
 	int curpos = 0;
-	int state = 0;
+	int state = 1;
 	while (1)
 	{
-		renderer.RenderText(menuinfo, points, menutext, textsize, rgbdatas);
+		renderer.RenderText(menuinfo, points, menutext, textsize, rgbdatas,1);
 		renderer.Render(appinfo);
-		if (_kbhit()) {//Èç¹ûÓÐ°´¼ü°´ÏÂ£¬Ôò_kbhit()º¯Êý·µ»ØÕæ
-			auto ch = _getch();//Ê¹ÓÃ_getch()º¯Êý»ñÈ¡°´ÏÂµÄ¼üÖµ
-
+		if (_kbhit()) {//å¦‚æžœæœ‰æŒ‰é”®æŒ‰ä¸‹ï¼Œåˆ™_kbhit()å‡½æ•°è¿”å›žçœŸ
+			auto ch = _getch();//ä½¿ç”¨_getch()å‡½æ•°èŽ·å–æŒ‰ä¸‹çš„é”®å€¼
+			if (ch == 13)
+			{
+				return state;
+			}
+			else if (ch == 119 && curpos > 0)
+			{
+				menutext = defaulttext1;
+				textsize = defaulttextsize;
+				curpos--;
+				state--;
+				menutext[curpos] = defaulttext2[curpos];
+				textsize[curpos]++;
+			}
+			else if (ch == 115 && curpos < textsize.size() - 1)
+			{
+				menutext = defaulttext1;
+				textsize = defaulttextsize;
+				curpos++;
+				state++;
+				menutext[curpos] = defaulttext2[curpos];
+				textsize[curpos]++;
+			}
 		}
 	}
 

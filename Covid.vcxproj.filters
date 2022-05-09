@@ -33,6 +33,12 @@
     <ClCompile Include="Menu.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TextBar.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderEngine.h">
@@ -45,6 +51,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulator.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

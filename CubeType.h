@@ -1,5 +1,5 @@
 #pragma once
-#include"RenderEngine.h"
+//È«ÆÁ´óÐ¡ 1925¡Á1000
 struct MapInfo
 {
     int x = 0;
@@ -9,6 +9,13 @@ struct MapInfo
     int xsize = 0;
     int ysize = 0;
 };
+
+
+struct point {
+    int x = 0;
+    int y = 0;
+};
+
 struct RGBData
 {
     int R = 0;
@@ -28,7 +35,7 @@ static const RGBData MenuText(30, 255, 138, 2,50);
 
 
 
-static const MapInfo mapinfo;
-static const MapInfo textinfo;
+static const MapInfo mapinfo = { 0,0,1500,1000,23,18 };
+static const MapInfo textinfo = { 1525,0,425,1000,0,0 };
 static const MapInfo menuinfo= {0,0,2000,2000,0,0};
 static const MapInfo appinfo = { 0,0,3000,3000,0,0 };

@@ -4,17 +4,13 @@
 #include<string>
 #include"CubeType.h"
 #include<vector>
+#include"TextBar.h"
 using namespace std;
 /*存储每个区域的RGB值和字体编号*/
 
 /*x、y为左上角坐标，width、height为宽度和高度，xsize、ysize为x、y方向上的区域数量，还被用作文字区域的大小结构体*/
 
 
-
-struct point {
-    int x = 0;
-    int y = 0;
-};
 
 class Renderer
 {
@@ -24,12 +20,13 @@ public:
     void RenderUnit(HDC DC,int x, int y, wstring str, int strsize, RGBData rgbdata, int mode);
     template<int maxx, int maxy>
     void RenderMap(MapInfo mpi, wstring str, int strsize, RGBData(&rgbdata)[maxy][maxx]);
-    void RenderText(MapInfo mpi,vector<point> points, vector<wstring> strlist, vector<int> strsizelist, vector<RGBData> rgbdatalist);
+    void RenderText(MapInfo mpi,vector<point> points, vector<wstring> strlist, vector<int> strsizelist, vector<RGBData> rgbdatalist,int mode);
+    void RenderTextbar(TextBar);
     void Render(MapInfo appinfo);
 
 private:
     HFONT font = CreateFont(
-        60, // nHeight
+        40, // nHeight
         0, // nWidth
         0, // nEscapement
         0, // nOrientation
@@ -45,7 +42,7 @@ private:
         L"Arial"// nPitchAndFamily Arial
     );
     HFONT font2 = CreateFont(
-        70, // nHeight
+        50, // nHeight
         0, // nWidth
         0, // nEscapement
         0, // nOrientation
@@ -87,6 +84,7 @@ private:
 };
 /*randermap函数传入mapinfo地图信息，表示地图方格的str(暂定为空格)，str的长度
 以及存储rgb信息的二维数组，rgb结构体的信息详见结构体定义部分*/
+
 template<int maxx, int maxy>
 void Renderer::RenderMap(MapInfo mpi, wstring str, int strsize, RGBData(&rgbdata)[maxy][maxx])
 {
@@ -96,7 +94,7 @@ void Renderer::RenderMap(MapInfo mpi, wstring str, int strsize, RGBData(&rgbdata
     {
         for (int j = 0; j < mpi.ysize; j++)
         {
-            RenderUnit(MemMapDC,50+mpi.x + i * (mpi.width / mpi.xsize),50+ mpi.y + j * (mpi.height / mpi.ysize), str, strsize, rgbdata[j][i],1);
+            RenderUnit(MemMapDC,25+mpi.x + i * (mpi.width / mpi.xsize),25+ mpi.y + j * (mpi.height / mpi.ysize), str, strsize, rgbdata[j][i],1);
 
         }
     }

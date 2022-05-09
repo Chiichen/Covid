@@ -49,6 +49,44 @@ void bfsmap(int(&a)[maxx][maxy], double prameter)
 	return;
 }
 
+
+//
+//template<int maxx, int maxy>
+//void bfsmap(int(&a)[maxx][maxy], double prameter)
+//{
+//	const int b[4] = { 0,0,maxx - 1,maxx - 1 };
+//	const int c[4] = { 0,maxy - 1,0,maxy - 1 };
+//	const int xx[5] = { 0,0,0,1,-1 };
+//	const int yy[5] = { 0,1,-1,0,0 };
+//	queue<point> que;
+//	for (int i = 0; i < 5; i++)
+//	{
+//		point p;
+//		p.x = (maxx-1)/2+xx[i], p.y = (maxy-1)/2+yy[i];
+//		que.push(p);
+//		bool flag = true;
+//		while (!que.empty())
+//		{
+//			point cur = que.front();
+//			que.pop();
+//			for (int i = 0; i < 5; i++)
+//			{
+//				cur.x += xx[i]; cur.y += yy[i];
+//				if (cur.x >= 0 && cur.x < maxx && cur.y >= 0 && cur.y < maxy && a[cur.x][cur.y] == 0 && (random_unint((double)0, (double)1) <= prameter || flag))
+//				{
+//					flag = false;
+//					a[cur.x][cur.y] = 1;
+//					que.push(cur);
+//				}
+//			}
+//		}
+//
+//	}
+//	return;
+//}
+
+
+
 void bfsmap(vector<vector<int>>a, double prameter)
 {
 	int maxx = a.size();
@@ -86,13 +124,9 @@ void bfsmap(vector<vector<int>>a, double prameter)
 
 
 Map::Map()
+	:Ifo(mapinfo)
 {
-	Ifo.x = 0;
-	Ifo.y = 0;
-	Ifo.height = 1000;
-	Ifo.width = 1500;
-	Ifo.xsize = 23;
-	Ifo.ysize = 18;
+
 	bfsmap(logicmap, 0.8);
 	RGBData a = { DefaultCube };
 	RGBData b = { DarkCube };
@@ -102,12 +136,15 @@ Map::Map()
 		{
 			if (logicmap[i][j] == 0)
 			{
+				area.area_arr[i * 23 + j]->Existence = 0;
+				area.area_arr[i * 23 + j]->setInfectious_num(0);
 				rgbdata[i][j] = b;
 			}
 			else {
+				area.area_arr[i * 23 + j]->Existence = 1;
 				rgbdata[i][j] = a;
 			}
-			
+
 		}
 	}
 

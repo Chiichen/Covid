@@ -145,12 +145,16 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="remderdemo.cpp" />
     <ClCompile Include="RenderEngine.cpp" />
+    <ClCompile Include="Simulator.cpp" />
+    <ClCompile Include="TextBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CubeType.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="RenderEngine.h" />
+    <ClInclude Include="Simulator.h" />
+    <ClInclude Include="TextBar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

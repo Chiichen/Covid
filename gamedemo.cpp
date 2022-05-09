@@ -3,104 +3,82 @@
 #include<iostream>
 #include<conio.h>
 #include"Menu.h"
-/*字母和数字键的键码值(keyCode)
-按键	键码	按键	键码	按键	键码	按键	键码
-A	65	J	74	S	83	1	49
-B	66	K	75	T	84	2	50
-C	67	L	76	U	85	3	51
-D	68	M	77	V	86	4	52
-E	69	N	78	W	87	5	53
-F	70	O	79	X	88	6	54
-G	71	P	80	Y	89	7	55
-H	72	Q	81	Z	90	8	56
-I	73	R	82	0	48	9	57
-数字键盘上的键的键码值(keyCode)	功能键键码值(keyCode)
-按键	键码	按键	键码	按键	键码	按键	键码
-0	96	8	104	F1	112	F7	118
-1	97	9	105	F2	113	F8	119
-2	98	*	106	F3	114	F9	120
-3	99	+	107	F4	115	F10	121
-4	100	Enter	108	F5	116	F11	122
-5	101	-	109	F6	117	F12	123
-6	102	.	110	 	 	 	 
-7	103	/	111	 	 	 	 
-控制键键码值(keyCode)
-按键	键码	按键	键码	按键	键码	按键	键码
-BackSpace	8	Esc	27	Right Arrow	39	-_	189
-Tab	9	Spacebar	32	Dw Arrow	40	.>	190
-Clear	12	Page Up	33	Insert	45	/?	191
-Enter	13	Page Down	34	Delete	46	`~	192
-Shift	16	End	35	Num Lock	144	[{	219
-Control	17	Home	36	;:	186	/|	220
-Alt	18	Left Arrow	37	=+	187	]}	221
-Cape Lock	20	Up Arrow	38	,<	188	'"	222
-多媒体键码值(keyCode)
-按键	键码	按键	键码	按键	键码	按键	键码
-音量加	175	 	 	 	 	 	 
-音量减	174	 	 	 	 	 	 
-停止	179	 	 	 	 	 	 
-静音	173	 	 	 	 	 	 
-浏览器	172	 	 	 	 	 	 
-邮件	180	 	 	 	 	 	 
-搜索	170	 	 	 	 	 	 
-收藏	171	 	 	 	 	 	 */
-
+#include"TextBar.h"
 int main()
 {
-	Renderer render(3000,3000);
-	Map map;
-	Menu menu;
+//窗口最大化
 	HANDLE HOUT = GetStdHandle(STD_OUTPUT_HANDLE);    //获得控制台句柄
 	COORD NewSize = GetLargestConsoleWindowSize(HOUT);//获得控制台最大坐标，坐标以字符数为单位
 	NewSize.X -= 1;
 	NewSize.Y -= 1;    //可以不加，不加时显示滚动条
 	SetConsoleScreenBufferSize(HOUT, NewSize); //设置控制台缓冲区大小
-
 	SMALL_RECT DisplayArea = { 0,0,0,0 };
 	DisplayArea.Right = NewSize.X;
 	DisplayArea.Bottom = NewSize.Y;
 	SetConsoleWindowInfo(HOUT, TRUE, &DisplayArea);    //设置控制台大小
+	//控制台已经最大化，但是初始位置不在屏幕左上角，添加如下代码
+	HWND hwnd = GetConsoleWindow();
+	ShowWindow(hwnd, SW_MAXIMIZE);
+//窗口最大化
+
+//隐藏光标
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO CursorInfo;
+	GetConsoleCursorInfo(handle, &CursorInfo);//获取控制台光标信息
+	CursorInfo.bVisible = false; //隐藏控制台光标
+	SetConsoleCursorInfo(handle, &CursorInfo);//设置控制台光标状态
+//隐藏光标
+
+
+	Renderer render(3000, 3000);
+	Map map;
+	Menu menu;
+	TextBar textbar;
+
+
 	point curcusor;
 	curcusor.x = 9;
 	curcusor.y = 9;
-	//控制台已经最大化，但是初始位置不在屏幕左上角，添加如下代码
-	HWND hwnd = GetConsoleWindow();
 
-	ShowWindow(hwnd, SW_MAXIMIZE);    //窗体最大化
+	int state = menu.show();
 
-	menu.show();
-
-	while (1)
+	while (state == 1)
 	{
 
 		if (_kbhit()) {//如果有按键按下，则_kbhit()函数返回真
 			auto ch = _getch();//使用_getch()函数获取按下的键值
 			if (ch == 27) { return 0; }//当按下ESC时循环，ESC键的键值时27.
-			else if (ch == 119 && curcusor.y > 0 && map.logicmap[curcusor.y - 1][curcusor.x] == 1)
+			else if ((ch == 119 ||ch==87)&& curcusor.y > 0 && map.logicmap[curcusor.y - 1][curcusor.x] == 1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.y--;
 				
 			}
-			else if (ch == 115 && curcusor.y < map.Ifo.ysize-1 && map.logicmap[curcusor.y + 1][curcusor.x] == 1)
+			else if ((ch == 115 ||ch==83)&& curcusor.y < map.Ifo.ysize-1 && map.logicmap[curcusor.y + 1][curcusor.x] == 1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.y++;
 			}
-			else if (ch == 97 && curcusor.x > 0 && map.logicmap[curcusor.y][curcusor.x - 1] == 1)
+			else if ((ch == 97||ch== 65)&& curcusor.x > 0 && map.logicmap[curcusor.y][curcusor.x - 1] == 1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.x--;
 			}
-			else if (ch == 100 && curcusor.x < map.Ifo.xsize - 1&&map.logicmap[curcusor.y][curcusor.x + 1]==1)
+			else if ((ch == 100||ch== 68)&& curcusor.x < map.Ifo.xsize - 1&&map.logicmap[curcusor.y][curcusor.x + 1]==1)
 			{
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.x++;
 			}
 		}
+		
+		map.area.area_arr[curcusor.x*curcusor.y]->getKnown_Infectious();
+		vector<wstring>str;
 		map.SetColor(curcusor, Cube1);
-		render.RenderMap(map.Ifo, L"    ", 4, map.rgbdata);
+		render.RenderMap(mapinfo, L"    ", 4, map.rgbdata);
+		render.RenderTextbar(textbar);
 		render.Render(appinfo);
+
+
 	}
 	return 0;
 
