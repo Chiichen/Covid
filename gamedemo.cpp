@@ -25,7 +25,7 @@ int main()
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO CursorInfo;
 	GetConsoleCursorInfo(handle, &CursorInfo);//获取控制台光标信息
-	CursorInfo.bVisible = false; //隐藏控制台光标
+	CursorInfo.bVisible = true; //隐藏控制台光标
 	SetConsoleCursorInfo(handle, &CursorInfo);//设置控制台光标状态
 //隐藏光标
 
@@ -33,16 +33,31 @@ int main()
 	Renderer render(3000, 3000);
 	Map map;
 	Menu menu;
-	TextBar textbar;
+	TextBar textbarframe({ L"╔════════╗",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"╠════════╣",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"║                    ║",L"╚════════╝" },
+	{10,22,22,22,22,22,22,22,10,22,22,22,22,22,22,22,22,22,22,10},
+		{ {1540,0},{1540,50},{1540,100},{1540,150},{1540,200},{1540,250 },{1540,300},{1540,350},{1540,400 },{1540,450 },{1540,500 },{1540,550 },{1540, 600},{1540, 650},{1540,700 },{1540,750 },{1540,800 },{1540,850 },{1540,900 },{1540,950 } },
+	{MenuText,MenuText,MenuText, MenuText, MenuText, MenuText, MenuText, MenuText, MenuText, MenuText, MenuText, MenuText, MenuText, MenuText, MenuText ,MenuText, MenuText, MenuText, MenuText, MenuText },
+	textbarinfo
+	);
+
+
+	TextBar textbar({ L"A处有" },
+		{ 3 },
+		{ {1575,100} },
+		{  text1 },
+		textinfo
+	);
 
 
 	point curcusor;
 	curcusor.x = 9;
 	curcusor.y = 9;
 
-	int state = menu.show();
+	int state = menu.show(10);
+	char Operator = 0;
 
-	while (state == 1)
+
+	while (state == 0)
 	{
 
 		if (_kbhit()) {//如果有按键按下，则_kbhit()函数返回真
@@ -69,16 +84,28 @@ int main()
 				map.SetColor(curcusor, DefaultCube);
 				curcusor.x++;
 			}
+
+			if (ch == 43) Operator = '+';
+			else if (ch == 45) Operator = '-';
+			else if (ch == 111 || ch == 79) Operator = 'o';
+			else if (ch == 103 || ch == 71) Operator = 'g';
+			else if (ch == 104 || ch == 72)Operator = 'h';
+
+			if (ch == 32) Operator = ' ';
+
 		}
-		
+		map.area.Operation(curcusor.x * curcusor.y, Operator);
 		map.area.area_arr[curcusor.x*curcusor.y]->getKnown_Infectious();
-		vector<wstring>str;
 		map.SetColor(curcusor, Cube1);
-		render.RenderMap(mapinfo, L"    ", 4, map.rgbdata);
-		render.RenderTextbar(textbar);
+		if (Operator == ' ')
+		{
+			map.area.GenerallyUpdate();
+		}
+		render.RenderMap(mapinfo, L"    ", 4, map.rgbdata); 
+		render.RenderTextbar(textbar, 2);
+//		render.RenderTextbar(textbarframe, 1);
 		render.Render(appinfo);
-
-
+		Operator = 'a';
 	}
 	return 0;
 

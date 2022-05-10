@@ -4,12 +4,13 @@
 class TextBar
 {
 public:
-	TextBar();
+	TextBar(vector<wstring>a, vector<int>b, vector<point>c, vector<RGBData>d,MapInfo Info);
 	~TextBar();
 	vector<wstring> textlist;
 	vector<int> textsize;
 	vector<point> points;
 	vector<RGBData> rgbdatas;
+	MapInfo Info;
 private:
 
 };

@@ -1,9 +1,10 @@
 #include"TextBar.h"
-TextBar::TextBar()
-	:textlist({ L"abcdefgh",L"ASDASD"}),
-	textsize({8,6}),
-	points({ {1525,400},{1525,500} }),
-	rgbdatas({MenuText,MenuText})
+TextBar::TextBar(vector<wstring>a, vector<int>b, vector<point>c, vector<RGBData>d,MapInfo info)
+	:textlist(a),
+	textsize(b),
+	points(c),
+	rgbdatas(d),
+	Info(info)
 {
 
 }
@@ -12,3 +13,6 @@ TextBar::~TextBar()
 {
 
 }
+
+
+//¨U¨X¨Y¨Z¨[¨\¨]¨^¨_¨`¨a¨T¨g¨d

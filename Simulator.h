@@ -5,12 +5,16 @@
 #include <random>
 #include <ctime>
 
+
 #define I 18//行数
 #define J 23//列数
 
 using namespace std;
 
+
 class LocalArea;
+
+
 
 class Area
 {
@@ -18,10 +22,15 @@ public:
 	Area();
 	~Area();
 public:
+	bool state;//state=~state;
 	LocalArea** area_arr;
 	int Income_Total = 0;//总收益
+	void Operation(int, char);
 	void Pre_Update(short);//特殊数据更新
-	void Update(short );//数据更新
+	void Update(short);//数据更新
+	vector<wstring> outtext_im(int);
+	void GenerallyUpdate();
+	int date = 1;
 };
 
 //坐标结构体
@@ -31,7 +40,7 @@ struct Coord
 	short y;
 };
 
-class LocalArea 
+class LocalArea
 {
 private:
 	//基本参数
@@ -61,7 +70,7 @@ private:
 
 public:
 	LocalArea(short x, short y, bool b);
-	bool Existence  = 1;//地区是否存在
+	bool Existence = 1;//地区是否存在
 
 
 	Coord getLoccalCoord();
@@ -83,20 +92,21 @@ public:
 	int getRecovered();//获取地区康复者数	
 	int getParamedic();//获取地区医护人员数
 
-	void setPopulation(int );//修改地区人口总数
-	void setFund(int );//修改地区政府总资产		●
-	void setIncome(int );//修改地区每日收益		●
+	void setPopulation(int);//修改地区人口总数
+	void setFund(int);//修改地区政府总资产		●
+	void setIncome_Rate(double);//修改地区每日收益率		
+	void setIncome(int);//修改地区每日收益		●
 	void setInfectious_Rate(double r);//修改地区传播率		●
 	void setInfectious_num(double r);//修改邻区传播系数
 	void setNew_Infectious(int);//修改地区当日新增传播者
-	void setKnown_Infectious(int );//修改已知地区感染者数		●
+	void setKnown_Infectious(int);//修改已知地区感染者数		●
 	void setActual_Infectious(int);//修改实际地区感染者数		
 	void setFatality_Rate(double);//修改地区病死率
-	void setFatality(int );//修改地区总病死数			
+	void setFatality(int);//修改地区总病死数			
 	void setFatality_Daily(int);//修改地区当日病死数
 	void setRecovered_Rate(double);//修改地区康复率		
-	void setRecovered(int );//修改地区康复者数	
-	void setParamedic(int );//修改地区医护人员数		●
+	void setRecovered(int);//修改地区康复者数	
+	void setParamedic(int);//修改地区医护人员数		●
 
 };
 
@@ -106,8 +116,3 @@ class Event
 
 };
 
-class Text
-{
-public:
-
-};

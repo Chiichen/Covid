@@ -5,6 +5,7 @@
 #include"CubeType.h"
 #include<vector>
 #include"TextBar.h"
+
 using namespace std;
 /*存储每个区域的RGB值和字体编号*/
 
@@ -21,7 +22,7 @@ public:
     template<int maxx, int maxy>
     void RenderMap(MapInfo mpi, wstring str, int strsize, RGBData(&rgbdata)[maxy][maxx]);
     void RenderText(MapInfo mpi,vector<point> points, vector<wstring> strlist, vector<int> strsizelist, vector<RGBData> rgbdatalist,int mode);
-    void RenderTextbar(TextBar);
+    void RenderTextbar(TextBar,int);
     void Render(MapInfo appinfo);
 
 private:
@@ -73,11 +74,28 @@ private:
         DEFAULT_PITCH | FF_SWISS,
         L"Arial"// nPitchAndFamily Arial
     );
-    HFONT* Fontlist[3] = { &font, &font2, &font3 };
+    HFONT font4 = CreateFont(
+        25 , // nHeight
+        0, // nWidth
+        0, // nEscapement
+        0, // nOrientation
+        FW_BOLD, // nWeight
+        FALSE, // bItalic
+        FALSE, // bUnderline
+        0, // cStrikeOut
+        ANSI_CHARSET, // nCharSet
+        OUT_DEFAULT_PRECIS, // nOutPrecision
+        CLIP_DEFAULT_PRECIS, // nClipPrecision
+        DEFAULT_QUALITY, // nQuality
+        DEFAULT_PITCH | FF_SWISS,
+        L"Arial"// nPitchAndFamily Arial
+    );
+    HFONT* Fontlist[4] = { &font, &font2, &font3, &font4 };
     HDC hdc;
     HDC MemDC;
     HDC MemMapDC;
     HDC MemTextDC;
+    HDC MemTextBarDC;
     HDC CoverMemDC;
     HBITMAP Memhbmp;
     HBITMAP hbmp;
