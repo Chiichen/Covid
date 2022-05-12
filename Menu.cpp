@@ -15,15 +15,12 @@ void SetFont(int size = 30) {
 }
 
 
-Menu::Menu()
+Menu::Menu(vector<wstring>strlist,vector<int> sizelist, vector<point>points,vector<RGBData>rgbdatas)
 	:renderer(3000, 3000), 
-	menutext({ L"➢开始游戏", L"成就", L"技能" }), 
-	textsize({ 5, 2, 2 }),
-	points({ {962,400},{962,500},{962,600} }),
-	rgbdatas({ MenuText ,MenuText ,MenuText }),
-	defaulttext1({ L"开始游戏", L"成就", L"技能" }),
-	defaulttext2({ L"➢开始游戏", L"➢成就", L"➢技能" }),
-	defaulttextsize({4,2,2})
+	menutext(strlist),
+	textsize(sizelist),
+	points(points),
+	rgbdatas(rgbdatas)
 {
 	
 }
@@ -39,33 +36,16 @@ int Menu::show(int a,int b)
 	int state = 1;
 	while (1)
 	{
-		renderer.RenderText(menuinfo, points, menutext, textsize, rgbdatas,1);
+		renderer.RenderText(menuinfo, points, menutext, textsize, rgbdatas, 1);
 		renderer.Render(appinfo);
 		if (_kbhit()) {//如果有按键按下，则_kbhit()函数返回真
 			auto ch = _getch();//使用_getch()函数获取按下的键值
-			if (ch == 13)
+			if (ch == 8)
 			{
-				return state;
-			}
-			else if (ch == 119 && curpos > 0)
-			{
-				menutext = defaulttext1;
-				textsize = defaulttextsize;
-				curpos--;
-				state--;
-				menutext[curpos] = defaulttext2[curpos];
-				textsize[curpos]++;
-			}
-			else if (ch == 115 && curpos < textsize.size() - 1)
-			{
-				menutext = defaulttext1;
-				textsize = defaulttextsize;
-				curpos++;
-				state++;
-				menutext[curpos] = defaulttext2[curpos];
-				textsize[curpos]++;
+				return 2;
 			}
 		}
+
 	}
 
 	
@@ -82,12 +62,12 @@ int Menu::show(int a)
 	auto m1 = new char[540][1920];
 	auto m2 = new char[540][1920];
 	auto m3 = new char[540][1920];
-
+	SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
 	SetFont(1);
 	int cnt = 0;
 	int idx = 0;
 	ifstream ifs;
-	ifs.open("瘟疫公司.txt", ios::in);
+	ifs.open("file.txt", ios::in);
 	char c;
 	while ((c = ifs.get()) != EOF)
 	{
@@ -106,7 +86,7 @@ int Menu::show(int a)
 
 	cnt = 0;
 	idx = 0;
-	ifs.open("瘟疫公司1.txt", ios::in);
+	ifs.open("file1.txt", ios::in);
 	while ((c = ifs.get()) != EOF)
 	{
 		if (c != '\n')
@@ -123,7 +103,7 @@ int Menu::show(int a)
 
 	cnt = 0;
 	idx = 0;
-	ifs.open("瘟疫公司2.txt", ios::in);
+	ifs.open("file2.txt", ios::in);
 	while ((c = ifs.get()) != EOF)
 	{
 		if (c != '\n')
@@ -164,7 +144,6 @@ int Menu::show(int a)
 
 		while (1)
 		{
-			cout << 1111111;
 			if (_kbhit()) {//如果有按键按下，则_kbhit()函数返回真
 				auto ch = _getch();//使用_getch()函数获取按下的键值
 				if (ch == 13)
@@ -176,11 +155,12 @@ int Menu::show(int a)
 					curpos--;
 					state--;
 				}
-				else if (ch == 115 && curpos ==0 )
+				else if (ch == 115 && curpos == 0)
 				{
 					curpos++;
 					state++;
 				}
+				else if (ch == 8) return 3;
 			}
 			if (curpos == 0)
 			{

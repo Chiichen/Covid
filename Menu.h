@@ -12,7 +12,7 @@ using namespace std;
 class Menu
 {
 public:
-	Menu();
+	Menu(vector<wstring>strlist, vector<int> sizelist, vector<point>points, vector<RGBData>rgbdatas);
 	~Menu();
 	vector<wstring> menutext;
 	vector<int> textsize;
@@ -22,8 +22,11 @@ public:
 	int show(int,int);
 	int show(int a = 10);
 private:
-	vector<wstring> defaulttext1;
-	vector<wstring> defaulttext2;
-	vector<int>defaulttextsize;
+	vector<wstring>intro = { L"   +   键————增加医护",
+	  L"   -   键————减少医护",
+	  L"   H   键————全员核酸",
+	  L"   O   键————封城封控",
+	  L"   G   键————集中隔离",
+	  L"  空格 键————到下一天" };
 };
 

@@ -4,6 +4,9 @@
 #include <string>
 #include <random>
 #include <ctime>
+#include<cstring>
+#include<algorithm>
+#include<stack>
 
 
 #define I 18//行数
@@ -29,6 +32,10 @@ public:
 	void Pre_Update(short);//特殊数据更新
 	void Update(short);//数据更新
 	vector<wstring> outtext_im(int);
+	vector<wstring> outevent();
+	void addevent(wstring str);
+	vector<wstring> events;
+	vector<wstring> totalevents;
 	void GenerallyUpdate();
 	int date = 1;
 };
@@ -56,7 +63,7 @@ private:
 
 	//地区病毒传播相关
 	double Infectious_Rate = 0;//地区病毒传播率
-	double Infectious_num = 0.01;//邻区传播系数
+	double Infectious_num = 0.08;//邻区传播系数
 	int New_Infectious = 0;//地区当天新增感染者
 	int Real_Infectious_Amount = 1;//实际地区感染者数
 	int Known_Infectious_Amount = 0;//已知地区感染者数

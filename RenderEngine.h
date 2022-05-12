@@ -5,7 +5,6 @@
 #include"CubeType.h"
 #include<vector>
 #include"TextBar.h"
-
 using namespace std;
 /*存储每个区域的RGB值和字体编号*/
 
@@ -88,16 +87,50 @@ private:
         CLIP_DEFAULT_PRECIS, // nClipPrecision
         DEFAULT_QUALITY, // nQuality
         DEFAULT_PITCH | FF_SWISS,
-        L"Arial"// nPitchAndFamily Arial
+        L"微软雅黑"// nPitchAndFamily Arial
     );
-    HFONT* Fontlist[4] = { &font, &font2, &font3, &font4 };
+    HFONT font5 = CreateFont(
+        30, // nHeight
+        0, // nWidth
+        0, // nEscapement
+        0, // nOrientation
+        FW_BOLD, // nWeight
+        FALSE, // bItalic
+        FALSE, // bUnderline
+        0, // cStrikeOut
+        ANSI_CHARSET, // nCharSet
+        OUT_DEFAULT_PRECIS, // nOutPrecision
+        CLIP_DEFAULT_PRECIS, // nClipPrecision
+        DEFAULT_QUALITY, // nQuality
+        DEFAULT_PITCH | FF_SWISS,
+        L"微软雅黑"// nPitchAndFamily Arial
+    );
+    HFONT font6 = CreateFont(
+        80, // nHeight
+        0, // nWidth
+        0, // nEscapement
+        0, // nOrientation
+        FW_BOLD, // nWeight
+        FALSE, // bItalic
+        FALSE, // bUnderline
+        0, // cStrikeOut
+        ANSI_CHARSET, // nCharSet
+        OUT_DEFAULT_PRECIS, // nOutPrecision
+        CLIP_DEFAULT_PRECIS, // nClipPrecision
+        DEFAULT_QUALITY, // nQuality
+        DEFAULT_PITCH | FF_SWISS,
+        L"微软雅黑"// nPitchAndFamily Arial
+    );
+
+    const HFONT Fontlist[6] = { font, font2, font3, font4, font5 , font6};
     HDC hdc;
     HDC MemDC;
     HDC MemMapDC;
     HDC MemTextDC;
     HDC MemTextBarDC;
-    HDC CoverMemDC;
     HBITMAP Memhbmp;
+    HBITMAP MemTexthbmp;
+    HBITMAP MemTextBarbmp;
     HBITMAP hbmp;
 };
 /*randermap函数传入mapinfo地图信息，表示地图方格的str(暂定为空格)，str的长度
